@@ -1,0 +1,80 @@
+<!-- netops/templates/admin/users.html -->
+
+{% import "bootstrap/utils.html" as utils %}
+{% from "_macros.html" import confirm_active_modal %}
+{% extends "base.html" %}
+{% block title %}Users{% endblock %}
+
+{% block body %}
+
+<div class="container align-left">
+  <div class="content-section">
+    <br />
+    {{ utils.flashed_messages() }}
+    <br />
+    <div class="container-fluid" style="text-align:center;">
+      <div class=row>
+        <div class="col-lg"></div>
+        <h1 class="col-lg">Users</h1>
+        <div class="col-lg">
+          <span class="pull-right">
+            {% if current_user.roles[0] == 'admin' %}
+            <a href="{{ url_for('admin.create_user') }}" class="btn btn-lg interface-btn interface-btn-add">
+              <i class="fa fa-plus"></i>
+              Add User
+            </a>
+            {% endif %}
+          </span>
+        </div>
+      </div>
+      <hr class="intro-divider">
+      {% if users %}
+      <table class="table table-striped">
+        <thead class="thead">
+          <tr>
+            <th width="5%">Email</th>
+            <th width="5%">Name</th>
+            <th width="5%">Role</th>
+            <th width="10%">Last Login</th>
+            <th width="10%">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td> {{ user.email }} </td>
+            <td> {{ user.name }}</td>
+            <td> {{ user.roles[0]|capitalize }} </td>
+            <td> {{ user.last_login_at }} </td>
+            <div class="btn-group-horizontal">
+              {% if current_user.roles[0] == 'admin' %}
+              <td><a class="btn btn-sm interface-btn interface-btn-edit tooltip-test" href="{{ url_for('admin.edit_user', id=user.id )}}" title="Edit {{ user.email }}">
+                  <i class="fa fa-pencil"></i> Edit</a>
+                {% if user.active %}
+                {{ confirm_active_modal(url='admin.modify_activation', user=user, option="disable") }}
+                <button data-toggle="modal" data-target="#confirm-active-model{{ user.id }}" class="btn btn-sm interface-btn interface-btn-delete tooltip-test" title="Disable {{ user.email }}">
+                  <i class="fa fa-times"></i> Disable</button>
+                {% else %}
+                {{ confirm_active_modal(url='admin.modify_activation', user=user, option="enable") }}
+                <button data-toggle="modal" data-target="#confirm-active-model{{ user.id }}" class="btn btn-sm interface-btn interface-btn-add tooltip-test" title="Enable {{ user.email }}">
+                  <i class="fa fa-check"></i> Enable</button>
+                {% endif %}
+            </div>
+            {% else %}
+            <td></td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div style="text-align: center">
+      {% else %}
+      <div style="text-align: center">
+        <h3> No Users Availiable. </h3>
+        <hr class="intro-divider">
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endblock %}

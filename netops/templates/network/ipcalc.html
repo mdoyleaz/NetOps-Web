@@ -1,0 +1,65 @@
+<!-- netops/templates/network/ipcalc.html -->
+
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+<div class="content-container" style="padding: 20px;">
+
+  <h1> {{ title }} </h1>
+</div>
+<div class="content-section" style="padding: 20px;">
+
+  <form class="form " method="POST" role="form">
+    <table class="table table-sm" ">
+      <thead class="thead">
+        <tr>
+          <th width="10%">{{ form.ip_address.label }}</th>
+          <th width="1%"></th>
+          <th width="25%"> {{ form.prefix.label }}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody style="padding-top: 20px;">
+        <tr>
+          {{ form.csrf_token }}
+          <td> {{ form.ip_address }} </td>
+          <td> / </td>
+          <td> {{ form.prefix }} </td>
+          <td> {{ form.submit }} </td>
+        </tr>
+      </tbody>
+  </form>
+  {% if data %}
+  <table class="table table-sm table-hover" , style="width: 50%;">
+    <tbody>
+      <tr>
+        <td> <strong>Subnet:</strong> </td>
+        <td> {{ data['subnet'] }} </td>
+      </tr>
+      <tr>
+        <td> <strong>Netmask: </strong></td>
+        <td> {{ data['netmask'] }} </td>
+      </tr>
+      <tr>
+        <td> <strong>Gateway: </strong></td>
+        <td> {{ data['gateway'] }} </td>
+      </tr>
+      <tr>
+        <td> <strong>Usable IP's: </strong></td>
+        <td> {{ data['usable'] }} </td>
+      </tr>
+      <tr>
+        <td> <strong>Total IP's: </strong></td>
+        <td> {{ data['total_int'] }} </td>
+      </tr>
+      <tr>
+        <td> <strong>Total IP's (Usable): </strong> </td>
+        <td> {{ data['total_usable'] }} </td>
+      </tr>
+    </tbody>
+  </table>
+
+  {% endif %}
+</div>
+{% endblock %}

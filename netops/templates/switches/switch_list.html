@@ -1,0 +1,80 @@
+<!-- netops/templates/admin/users.html -->
+
+{% import "bootstrap/utils.html" as utils %}
+{% from "_macros.html" import confirm_removal_modal %}
+{% extends "base.html" %}
+{% block title %}Users{% endblock %}
+
+{% block body %}
+
+<div class="container align-left">
+  <div class="content-section">
+    <br />
+    {{ utils.flashed_messages() }}
+    <br />
+    <div class="container-fluid" style="text-align:center;">
+      <div class=row>
+        <div class="col-lg"></div>
+        <h1 class="col-lg">Switches</h1>
+        <div class="col-lg">
+          <span class="pull-right">
+            {% if current_user.roles[0] == 'admin' %}
+            <a href="{{ url_for('switches.add') }}" class="btn btn-lg interface-btn interface-btn-add">
+              <i class="fa fa-plus"></i>
+              Add Switch
+            </a>
+            {% endif %}
+          </span>
+        </div>
+      </div>
+      <hr class="intro-divider">
+      {% if switches %}
+      <table class="table table-striped">
+        <thead class="thead">
+          <tr>
+            <th width="5%">Label</th>
+            <th width="5%">Operating system</th>
+            <th width="5%">IP Address</th>
+            <th width="10%">Username</th>
+            <th width="10%">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for switch in switches %}
+          <tr>
+            <td> {{ switch.name }} </td>
+            <td> {{ switch.os }}</td>
+            <td> {{ switch.ip }} </td>
+            <td> {{ switch.username }} </td>
+            <div class="btn-group-horizontal">
+              {% if current_user.roles[0] == 'admin' %}
+              <td><a class="btn btn-sm interface-btn interface-btn-edit tooltip-test" href="{{ url_for('switches.edit', id=switch.id )}}" title="Edit {{ switch.name }}">
+                  <i class="fa fa-pencil"></i> Edit</a>
+                {% if not switch.deleted %}
+                {{ confirm_removal_modal(url='switches.modify_deleted', db_entry=switch) }}
+                <button data-toggle="modal" data-target="#confirm-removal-modal{{ switch.id }}" class="btn btn-sm interface-btn interface-btn-delete tooltip-test" title="Disable {{ switch.name }}">
+                  <i class="fa fa-times"></i> Delete</button>
+                {% else %}
+                {{ confirm_removal_modal(url='switches.modify_deleted', db_entry=switch) }}
+                <button data-toggle="modal" data-target="#confirm-removal-modal{{ switch.id }}" class="btn btn-sm interface-btn interface-btn-add tooltip-test" title="Enable {{ switch.name }}">
+                  <i class="fa fa-check"></i> Restore</button>
+                {% endif %}
+            </div>
+            {% else %}
+            <td></td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div style="text-align: center">
+      {% else %}
+      <div style="text-align: center">
+        <h3> No Switches Added. </h3>
+        <hr class="intro-divider">
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endblock %}

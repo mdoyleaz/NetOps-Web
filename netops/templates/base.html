@@ -1,0 +1,108 @@
+<!-- netops/templates/base.html -->
+
+<html lang="en">
+
+<body>
+
+  <head>
+    <title>{{ title }} | SeverHub Netops</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <!-- local imports -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/interface.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  </head>
+  <div class="wrapper">
+
+    <!-- Sidebar -->
+    {% if current_user.is_authenticated %}
+    <nav id="sidebar">
+      <div class="sidebar-header">
+        <a class="nav-link navbar-brand" href="{{ url_for('home.homepage') }}">ServerHub Netops</a>
+      </div>
+      <ul class="list-unstyled components" style="padding-top: 10%;">
+        <li id="sidebar-submenu">
+          <a href="#switchSubmenu" data-toggle="collapse" aria-expanded="false" class="nav-link  dropdown-toggle">Switches</a>
+          <ul class="collapse list-unstyled" id="switchSubmenu">
+            <li>
+              <a href="{{ url_for('switches.list') }}" class="nav-link">Switches</a>
+            </li>
+            <li>
+              <a href="{{ url_for('switches.add') }}" class="nav-link">Add Switch</a>
+            </li>
+            <hr class="half-rule" />
+          </ul>
+          {% if current_user.roles[0] in ['admin', 'tech'] %}
+          <a href="#adminSubmenu" data-toggle="collapse" aria-expanded="false" class="nav-link  dropdown-toggle">Admin</a>
+          <ul class="collapse list-unstyled" id="adminSubmenu">
+            <li>
+              <a href="{{ url_for('admin.user_list') }}" class="nav-link">Users</a>
+            </li>
+            <li>
+              <a href="{{ url_for('admin.create_user') }}" class="nav-link">Add User</a>
+            </li>
+            <hr class="half-rule" />
+          </ul>
+          {% endif %}
+          <a href="#logSubmenu" data-toggle="collapse" aria-expanded="false" class="nav-link  dropdown-toggle">Logs</a>
+          <ul class="collapse list-unstyled" id="logSubmenu">
+            <li>
+              <a href="#userlogins" class="nav-link">User Logins</a>
+            </li>
+            <li>
+              <a href="#inventoryadded" class="nav-link">Switches</a>
+            </li>
+            <li>
+              <a href="#assignments" class="nav-link">IP Assignments</a>
+            </li>
+            <hr class="half-rule" />
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    {% endif %}
+
+    <!-- Page Content -->
+    <div id="content">
+      <nav id="top-nav" class="navbar navbar-expand-lg navbar-dark navbar-inverse">
+        <div class="container-fluid">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              {% if current_user.is_authenticated %}
+              <button type="button" id="sidebarCollapse" class="btn btn-primary shadow-none">
+                <span class="fa fa-chevron-left"></span>
+              </button>
+              {% endif %}
+            </ul>
+            {% if current_user.is_authenticated %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-user"></i> {{ current_user.first_name }}</a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <h3 class="dropdown-header">{{ current_user.email }}</h3>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{{ url_for('security.logout') }}">Logout</a>
+              </div>
+              {% else %}
+            <li class="nav-item">
+              <a class="nav-link " href="{{ url_for('security.login') }}">Login <span class="sr-only">(current)</span><i class="fa fa-sign-in"></i></a>
+            </li>
+            {% endif %}
+          </div>
+      </nav>
+      {% block body %}
+      {% endblock %}
+    </div>
+  </div>
+</body>
+
+</html>

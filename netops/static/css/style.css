@@ -1,0 +1,229 @@
+/* netops/static/css/style.css */
+
+a {
+  outline: 0;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  background-color: #f7f2ef;
+}
+
+body, h1, h2, h3 {
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  list-style-type: none;
+}
+
+nav {
+  background-color: #343844;
+}
+
+table>.thead {
+  color: #bfc0c0;
+  background-color: #343844;
+  align-items: left;
+  width: 100%;
+}
+
+/* bootstrap styles */
+.btn-default:hover {
+  background-color: #a5acb7;
+}
+
+.btn-lg:hover {
+  text-decoration: underline;
+}
+
+.center {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
+
+.content-section, table {
+  padding: 3% 0;
+  margin-bottom: 5%;
+  border-top: 5px solid #e7e7e7;
+}
+
+.nav-link a {
+  color: #EAE6E3;
+  margin-left: 30px;
+  border-radius: 2px !important;
+  background-color: transparent;
+}
+
+.nav-link:hover {
+  color: #EAE6E3;
+  background-color: #55575b;
+}
+
+.wrapper {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+  background-color: inherit;
+}
+
+/* Main Page */
+.intro-header {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  text-align: center;
+  color: #f8f8f8;
+  background: url(../img/intro-bg.jpg) no-repeat center center;
+  background-size: cover;
+  height: 75%;
+}
+
+.intro-message {
+  position: relative;
+  padding-top: 20%;
+  padding-bottom: 20%;
+  color: #f7f2e9;
+}
+
+.intro-message>h1 {
+  margin: 0;
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);
+  font-size: 5em;
+}
+
+/* Custom IDs */
+#content {
+  width: 100%
+}
+
+/* Top Bar */
+#top-nav.navbar {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+#top-nav a {
+  background-color: #343844;
+  color: #EAE6E3;
+}
+
+#top-nav a:hover {
+  color: #AAACAF;
+}
+
+#top-nav .btn-primary {
+  background-color: transparent;
+  border-color: transparent;
+  color: #EAE6E3;
+}
+
+#top-nav .btn-primary:hover {
+  border: solid 1px gray;
+  outline: 0 font-weight: bold;
+}
+
+#top-nav .dropdown-menu {
+  background-color: ##DBE0E1;
+  color: black;
+}
+
+#top-nav .dropdown-item {
+  background-color: inherit;
+  color: black;
+}
+
+#top-nav .dropdown-item:hover {
+  font-weight: bold;
+  color: black;
+  opacity: 0.8;
+}
+
+/* Sidebar */
+#sidebar {
+  min-width: 250px;
+  max-width: 250px;
+  min-height: 100vh;
+  list-style: none;
+  position: relative;
+}
+
+#sidebar a {
+  color: #ddd;
+  line-height: 20px;
+}
+
+#sidebar.active {
+  margin-left: -250px;
+}
+
+#sidebar .sidebar-header {
+  text-align: center;
+  font-size: 1.5rem;
+  padding: 10%;
+  background-color: #343844;
+  border-radius: 5px;
+  border-bottom: 4px solid #595A5C;
+}
+
+#sidebar .sidebar-header .nav-link:hover {
+  font-weight: bold;
+  color: #AAACAF;
+  background-color: inherit;
+}
+
+#sidebar .nav-link ul {
+  margin-left: 0px;
+  background-color: transparent;
+  padding-top: 15px;
+}
+
+#sidebar .nav-link li:hover {
+  background-color: gray;
+  font-weight: bold;
+}
+
+/* Sidebar submenus */
+#sidebar-submenu>ul {
+  text-indent: 1em;
+}
+
+#sidebar-submenu .half-rule {
+  border-radius: 10px;
+  border: 1px #595A5C solid;
+  margin-left: 1;
+  width: 90%;
+}
+
+/* Interface Buttons */
+.interface-btn {
+  color: #E3E3E5;
+}
+
+.interface-btn:hover {
+  text-decoration: none;
+  color: white;
+  opacity: .85;
+}
+
+.interface-btn-add {
+  background-color: #307F67;
+}
+
+.interface-btn-delete {
+  background-color: #964949;
+}
+
+.interface-btn-edit {
+  background-color: #378696;
+}
+.form-format{
+  padding-left: 10%;
+  width: 80%;
+}
+/* Login form  */
+#form_login {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

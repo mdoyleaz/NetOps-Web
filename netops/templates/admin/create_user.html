@@ -1,0 +1,31 @@
+<!-- ripam/templates/admin/create_user.html -->
+
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/utils.html" as utils %}
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+{{ utils.flashed_messages() }}
+<div class="form-format">
+  <h1 style="padding-top: 10%;"> {{ title }} </h1>
+  <div class="content-section form-centered">
+    <form class="form form-vertical" method="POST" role="form">
+      {{ register_user_form.hidden_tag() }}
+      {{ wtf.form_field(register_user_form.email) }}
+      {{ wtf.form_field(register_user_form.name) }}
+      {{ wtf.form_field(register_user_form.role) }}
+      <div class="alert alert-info"> <strong>Generated Password:</strong> {{ password }}</div>
+      {{ wtf.form_field(register_user_form.password) }}
+      {% if register_user_form.password_confirm %}
+      {{ wtf.form_field(register_user_form.password_confirm) }}
+      {% endif %}
+      <div id="form-buttons">
+      {{ wtf.form_field(register_user_form.submit, class="btn btn-default") }}
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

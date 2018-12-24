@@ -1,0 +1,27 @@
+<!-- netops/templates/auth/login.html -->
+
+{% extends "base.html" %}
+{% set title = "Login" %}
+{% block title %}{{ title }}{% endblock %}
+{% import "bootstrap/utils.html" as utils %}
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+
+{% block body %}
+{{ utils.flashed_messages() }}
+
+<div class="container">
+  <div class="center form-group">
+    <form id="form_login" action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
+      <h1 class="text-center" style="padding-bottom: 10%;">Login</h1>
+      {{ login_user_form.hidden_tag() }}
+      {{ render_field_with_errors(login_user_form.email, class="form-control") }}
+      {{ render_field_with_errors(login_user_form.password, class="form-control") }}
+      <div style="text-align:center">
+        {{ render_field_with_errors(login_user_form.remember, class="checkbox") }}
+        {{ render_field(login_user_form.next) }}
+        {{ render_field(login_user_form.submit, class="btn interface-btn interface-btn-add ") }}
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
