@@ -1,20 +1,20 @@
 <!-- netops/templates/network/ipcalc.html -->
 
+{% import "bootstrap/utils.html" as utils %}
 {% extends "base.html" %}
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
+{{ utils.flashed_messages() }}
 <div class="content-container" style="padding: 20px;">
-
   <h1> {{ title }} </h1>
 </div>
 <div class="content-section" style="padding: 20px;">
-
   <form class="form " method="POST" role="form">
-    <table class="table table-sm" ">
-      <thead class="thead">
+    <table class="table table-sm">
+      <thead class=" thead">
         <tr>
-          <th width="10%">{{ form.ip_address.label }}</th>
+          <th width="10%">{{ form.subnet.label }}</th>
           <th width="1%"></th>
           <th width="25%"> {{ form.prefix.label }}</th>
           <th></th>
@@ -23,43 +23,91 @@
       <tbody style="padding-top: 20px;">
         <tr>
           {{ form.csrf_token }}
-          <td> {{ form.ip_address }} </td>
+          <td> {{ form.subnet }} </td>
           <td> / </td>
           <td> {{ form.prefix }} </td>
           <td> {{ form.submit }} </td>
         </tr>
       </tbody>
   </form>
-  {% if data %}
-  <table class="table table-sm table-hover" , style="width: 50%;">
-    <tbody>
-      <tr>
-        <td> <strong>Subnet:</strong> </td>
-        <td> {{ data['subnet'] }} </td>
-      </tr>
-      <tr>
-        <td> <strong>Netmask: </strong></td>
-        <td> {{ data['netmask'] }} </td>
-      </tr>
-      <tr>
-        <td> <strong>Gateway: </strong></td>
-        <td> {{ data['gateway'] }} </td>
-      </tr>
-      <tr>
-        <td> <strong>Usable IP's: </strong></td>
-        <td> {{ data['usable'] }} </td>
-      </tr>
-      <tr>
-        <td> <strong>Total IP's: </strong></td>
-        <td> {{ data['total_int'] }} </td>
-      </tr>
-      <tr>
-        <td> <strong>Total IP's (Usable): </strong> </td>
-        <td> {{ data['total_usable'] }} </td>
-      </tr>
-    </tbody>
-  </table>
-
+</div>
+<div class="container">
+  {% if data['calc'] %}
+  {% set calc_details = data['calc'] %}
+  <div class="col">
+    <table class="table table-sm table-hover">
+      <thead class="thead">
+        <tr>
+          <th width="30%"> <strong>Subnet Breakdown</strong></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong> Subnet: </strong></td>
+          <td> {{ calc_details['subnet'] }} </td>
+        </tr>
+        <tr>
+          <td><strong> Netmask: </strong></td>
+          <td> {{ calc_details['netmask'] }} </td>
+        </tr>
+        <tr>
+          <td><strong> Broadcast: </strong></td>
+          <td> {{calc_details['broadcast'] }} </td>
+        </tr>
+        <tr>
+          <td><strong> Gateway: </strong></td>
+          <td> {{ calc_details['gateway'] }} </td>
+        </tr>
+        <tr>
+          <td><strong> Usable IP's: </strong></td>
+          <td> {{ calc_details['usable'] }} </td>
+        </tr>
+        <tr>
+          <td><strong> Total IP's: </strong></td>
+          <td> {{ calc_details['total_int'] }} </td>
+        </tr>
+        <tr>
+          <td><strong> Total IP's (Usable): </strong> </td>
+          <td> {{ calc_details['total_usable'] }} </td>
+        </tr>
+        <tr>
+          <td><strong> Split prefix into: </td>
+          {{ form.csrf_token }}
+          <td> / {{ form.split_prefix(style="width: 20%;") }} {{ form.submit_split }} </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   {% endif %}
+  {% if data['split'] %}
+  <div class="col">
+    <table class="table table-sm table-hover">
+      <thead class="thead">
+        <tr>
+          <th width="1%">#</th>
+          <th width="2%">New Subnet</th>
+          <th width="2%">Gateway</th>
+          <th width="2%">Broadcast</th>
+          <th width="2%">Netmask</th>
+          <th width="20%">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for subnet in data['split'] %}
+        <tr>
+          <td><strong> {{ loop.index }} </strong></td>
+          <td> {{ subnet['subnet'] }} </td>
+          <td> {{ subnet['gateway'] }}</td>
+          <td> {{ subnet['broadcast'] }} </td>
+          <td> {{ subnet['netmask'] }} </td>
+          <td></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+</div>
 </div>
 {% endblock %}

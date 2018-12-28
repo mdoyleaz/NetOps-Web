@@ -2,15 +2,24 @@ import ipaddress
 
 
 class IpCalcVerFour(object):
+    """
+    IPv4 Calculator, breaks down subnets handles various ip calculations using
+    the 'ipaddress' library
+    Requires:
+        'address' - 'str' type object representing the subnet
+        'prefix'  - 'int' type object representing the subnets prefix
+    """
+
     def __init__(self, address, prefix):
         self.address = address
         self.prefix = prefix
 
-        self.subnet = ipaddress.ip_network(f'{address}/{prefix}')
+        self.subnet = ipaddress.ip_network(f'{address}/{prefix}', strict=False)
 
         self.usable = f"{self.subnet[2]} - {self.subnet[-2]}"
         self.netmask = str(self.subnet.netmask)
         self.gateway = str(self.subnet[1])
+        self.broadcast = str(self.subnet[-1])
         self.total_int = len(list(self.subnet))
 
     def __dict__(self):
@@ -18,9 +27,10 @@ class IpCalcVerFour(object):
                             'usable': self.usable,
                             'gateway': self.gateway,
                             'netmask': self.netmask,
+                            'broadcast': self.broadcast,
                             'total_int': self.total_int,
-                            'total_usable': self.total_int - 3}
-
+                            'total_usable': self.total_int - 3
+                            }
 
         return subnet_breakdown
 
@@ -29,11 +39,16 @@ class IpCalcVerFour(object):
 
         return supernet
 
-    def get_children(self, prefix):
-        subnet_list = [str(child) for child in list(
-            self.subnet.subnets(new_prefix=prefix))]
+    def split_subnet(self, prefix):
+        """
+        Takes a subnet and breaks it down into smaller prefixes.
+        Requeires: 'prefix' - Integer; Prefix must be smaller than main block.
+        """
+
+        try:
+            subnet_list = [IpCalcVerFour(child[0], prefix).__dict__()
+                           for child in self.subnet.subnets(new_prefix=prefix)]
+        except ValueError as e:
+            subnet_list = {'error': [str(e).capitalize()]}
 
         return subnet_list
-
-    def children_as_gateawy(self, prefix):
-        pass

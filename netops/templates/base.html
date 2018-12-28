@@ -18,6 +18,7 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/interface.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   </head>
+
   <div class="wrapper">
 
     <!-- Sidebar -->
@@ -38,18 +39,13 @@
             </li>
             <hr class="half-rule" />
           </ul>
-          {% if current_user.roles[0] in ['admin', 'tech'] %}
-          <a href="#adminSubmenu" data-toggle="collapse" aria-expanded="false" class="nav-link  dropdown-toggle">Admin</a>
-          <ul class="collapse list-unstyled" id="adminSubmenu">
+          <a href="#netToolsSubmenu" data-toggle="collapse" aria-expanded="false" class="nav-link  dropdown-toggle">Network Tools</a>
+          <ul class="collapse list-unstyled" id="netToolsSubmenu">
             <li>
-              <a href="{{ url_for('admin.user_list') }}" class="nav-link">Users</a>
-            </li>
-            <li>
-              <a href="{{ url_for('admin.create_user') }}" class="nav-link">Add User</a>
+              <a href="{{ url_for('network.ip_calc', subnet="10.3.3.0", prefix="24" ) }}" class="nav-link">IP Calculator</a>
             </li>
             <hr class="half-rule" />
           </ul>
-          {% endif %}
           <a href="#logSubmenu" data-toggle="collapse" aria-expanded="false" class="nav-link  dropdown-toggle">Logs</a>
           <ul class="collapse list-unstyled" id="logSubmenu">
             <li>
@@ -63,6 +59,18 @@
             </li>
             <hr class="half-rule" />
           </ul>
+          {% if current_user.roles[0] in ['admin', 'tech'] %}
+          <a href="#adminSubmenu" data-toggle="collapse" aria-expanded="false" class="nav-link  dropdown-toggle">Admin</a>
+          <ul class="collapse list-unstyled" id="adminSubmenu">
+            <li>
+              <a href="{{ url_for('admin.user_list') }}" class="nav-link">Users</a>
+            </li>
+            <li>
+              <a href="{{ url_for('admin.create_user') }}" class="nav-link">Add User</a>
+            </li>
+            <hr class="half-rule" />
+          </ul>
+          {% endif %}
         </li>
       </ul>
     </nav>

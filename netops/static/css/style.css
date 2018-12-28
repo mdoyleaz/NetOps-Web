@@ -217,8 +217,11 @@ table>.thead {
   background-color: #378696;
 }
 .form-format{
-  padding-left: 10%;
+  padding: 5%;
   width: 80%;
+}
+.interface-form{
+  width: 65%;
 }
 /* Login form  */
 #form_login {
