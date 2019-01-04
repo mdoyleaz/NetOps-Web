@@ -29,6 +29,15 @@
       </div>
       <ul class="list-unstyled components" style="padding-top: 10%;">
         <li id="sidebar-submenu">
+          <a href="#netToolsSubmenu" data-toggle="collapse" aria-expanded="false" class="nav-link  dropdown-toggle">Network Tools</a>
+          <ul class="collapse list-unstyled" id="netToolsSubmenu">
+            <li>
+              <a href="{{ url_for('network.ip_calc') }}" class="nav-link">IP Calculator</a>
+            </li>
+            <li>
+              <a href="{{ url_for('network.pinger_tool') }}" class="nav-link">Pinger</a>
+              <hr class="half-rule" />
+          </ul>
           <a href="#switchSubmenu" data-toggle="collapse" aria-expanded="false" class="nav-link  dropdown-toggle">Switches</a>
           <ul class="collapse list-unstyled" id="switchSubmenu">
             <li>
@@ -36,13 +45,6 @@
             </li>
             <li>
               <a href="{{ url_for('switches.add') }}" class="nav-link">Add Switch</a>
-            </li>
-            <hr class="half-rule" />
-          </ul>
-          <a href="#netToolsSubmenu" data-toggle="collapse" aria-expanded="false" class="nav-link  dropdown-toggle">Network Tools</a>
-          <ul class="collapse list-unstyled" id="netToolsSubmenu">
-            <li>
-              <a href="{{ url_for('network.ip_calc', subnet="10.3.3.0", prefix="24" ) }}" class="nav-link">IP Calculator</a>
             </li>
             <hr class="half-rule" />
           </ul>
