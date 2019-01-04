@@ -1,8 +1,6 @@
-from multiprocessing import Pool
 from concurrent.futures import ThreadPoolExecutor
 from subprocess import getstatusoutput as get_status
 
-from nmap import PortScanner
 
 import time
 
@@ -11,11 +9,10 @@ def check_status(ip_address, packets=1):
     status, result = get_status(f"ping -c{packets} -n -i0.2  {ip_address}")
 
     if status is 0:
-        ip_status = [ip_address, ]
+        ip_status = [ip_address, True]
     else:
-        return
+        ip_status = [ip_address, False]
 
-    print(ip_status)
     return ip_status
 
 def multi_ping(ip_list, pool_size=None):
